@@ -4,11 +4,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.DTO.RegisterDTO;
 import com.example.demo.DTO.TestDTO;
 import com.example.demo.entity.Test;
+import com.example.demo.entity.User;
 import com.example.demo.repository.TestRepository;
+import com.example.demo.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,9 +20,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class TestService {
 
+	private final UserRepository userRepository;
 	private final TestRepository testRepository;
+	private final BCryptPasswordEncoder pe;
 	
-	// ¸®½ºÆ® ÀüÃ¼ ¸®ÅÏ
+	// ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½
 	public List<TestDTO> getList(int curPage, int pageSz){
 		System.out.println("pageSz : " + pageSz);
 		List<Test> list = testRepository
@@ -35,8 +41,19 @@ public class TestService {
 				.collect(Collectors.toList());
 	}
 	
-	// ÀüÃ¼ ÆäÀÌÁö ¼ö ¸®ÅÏ
+	// ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 	public int getPageSize(int pageSz) {
 		return ((int)testRepository.count() - 1) / pageSz + 1;
+	}
+	
+	public String register(RegisterDTO registerDTO) {
+		userRepository.save(
+					User.builder()
+						.id(registerDTO.getId())
+						.password(pe.encode(registerDTO.getPassword()))
+						.build()
+				);
+		
+		return "success";
 	}
 }

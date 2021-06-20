@@ -3,9 +3,12 @@ package com.example.demo.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.demo.DTO.RegisterDTO;
 import com.example.demo.service.TestService;
 
 import lombok.RequiredArgsConstructor;
@@ -46,5 +49,24 @@ public class MainController {
 		model.addAttribute("prev", prev);
 		model.addAttribute("next", next);
 		return "main";
+	}
+	
+	@GetMapping("/login")
+	public String login() {
+		System.out.println("login controller.");
+		return "login";
+	}
+	
+	@GetMapping("/login-error")
+	public String loginError(Model model) {
+		System.out.println("login error.");
+		model.addAttribute("error", true);
+		return "login";
+	}
+	
+	@PostMapping("/register")
+	@ResponseBody
+	public String register(@RequestBody RegisterDTO registerDTO) {
+		return testService.register(registerDTO);
 	}
 }

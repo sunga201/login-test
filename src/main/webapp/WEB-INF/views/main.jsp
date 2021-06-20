@@ -5,6 +5,19 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>  
 <title>Insert title here</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+	function logout(){
+		$.ajax({
+			type : "GET",
+			url : "/logout",
+			success: function(){
+				console.log("success.");
+				window.location.href="/login";
+			},
+		});
+	}
+</script>
 </head>
 <body>
 	<!-- pageNum : 한번에 표시되는 페이지 수
@@ -34,5 +47,7 @@
 	<c:if test="${a != b}">
 		<a href="/test?page=${next}">[next]</a>
 	</c:if>
+	
+	<button onclick="logout()">logout</button>
 </body>
 </html>
