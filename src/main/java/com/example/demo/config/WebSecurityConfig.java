@@ -1,9 +1,7 @@
 package com.example.demo.config;
 
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -20,16 +18,14 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	
-	private final CustomAuthenticationProvider customAuthProvider;
+	private final BCryptPasswordEncoder passwordEncoder;
 	private final CustomUserDetailsService customUserDetailsService;
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception{
-		/*auth
+		auth
 			.userDetailsService(customUserDetailsService)
-			.passwordEncoder(passwordEncoder());*/
-		
-		auth.authenticationProvider(customAuthProvider);
+			.passwordEncoder(passwordEncoder);
 	}
 	
     @Override
