@@ -54,13 +54,13 @@ public class CustomAuthenticationProvider implements AuthenticationProvider{
 	        e.printStackTrace();
 	        throw new RuntimeException(e.getMessage());
 	    }
-		
-		return new UsernamePasswordAuthenticationToken(username, password, authorities);
+		System.out.println("here!!!!!!!!!!!!!!!!!!!");
+		return new CustomAuthenticationToken(username, password, authorities);
 	}
 
 	@Override
 	public boolean supports(Class<?> authentication) {
-		return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
+		return true;
 	}
 
 }
